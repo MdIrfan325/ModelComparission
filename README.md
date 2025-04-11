@@ -56,5 +56,5 @@ An interactive web application for comparing and visualizing machine learning cl
 Mohammed Irfan  
 Contact: mi3253050@gmail.com
 
-Enumula Umamaheshwari  
+Enumula Umamaheshwari   
 Contact: umaenumula04@gmail.com
