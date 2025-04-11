@@ -20,8 +20,22 @@ from visualization import (
 )
 from utils import set_page_config, display_footer
 
-# Set page config
-set_page_config()
+st.set_page_config(
+    page_title="Model Comparison Dashboard",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+st.markdown("""
+    <style>
+    section[data-testid="stSidebar"] {
+        background-color: #ADD8E6 !important;
+    }
+    div[role="radiogroup"] label {
+        color: #000000 !important;
+        font-weight: bold;
+    }
+    </style>
+""", unsafe_allow_html=True)
 
 def main():
     # Sidebar
