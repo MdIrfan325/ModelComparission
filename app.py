@@ -129,9 +129,10 @@ def render_data_preparation_page():
     
     st.write("Upload your dataset or use the sample Telco Customer Churn dataset.")
     
+    # Default to sample dataset for a better demo experience
     data_option = st.radio(
         "Choose data source:",
-        ("Upload CSV file", "Use sample Telco Customer Churn dataset")
+        ("Use sample Telco Customer Churn dataset", "Upload CSV file")
     )
     
     if data_option == "Upload CSV file":
@@ -148,10 +149,29 @@ def render_data_preparation_page():
             return
     else:
         try:
-            # Try to load the sample dataset from GitHub
-            url = "https://raw.githubusercontent.com/IBM/telco-customer-churn-on-icp4d/master/data/Telco-Customer-Churn.csv"
-            data = pd.read_csv(url)
-            st.success("Sample data loaded successfully!")
+            # Display a spinner while loading the Telco dataset
+            with st.spinner("Loading Telco Customer Churn dataset..."):
+                url = "https://raw.githubusercontent.com/IBM/telco-customer-churn-on-icp4d/master/data/Telco-Customer-Churn.csv"
+                data = pd.read_csv(url)
+                st.success("Telco Customer Churn dataset loaded successfully!")
+                
+                # Add dataset information for context
+                with st.expander("About Telco Customer Churn Dataset", expanded=False):
+                    st.markdown("""
+                    ### Dataset Information
+                    
+                    The **Telco Customer Churn** dataset contains information about a fictional telco company that provides home phone and internet services to customers. The data indicates which customers have left, stayed, or signed up for their service.
+                    
+                    #### Key Features:
+                    - **Demographics**: Customer gender, age range, and if they have partners and dependents
+                    - **Account Information**: Tenure, contract type, payment method, paperless billing
+                    - **Services**: Phone, multiple lines, internet service, online security, online backup, device protection, tech support, and streaming TV and movies
+                    
+                    #### Target Variable:
+                    - **Churn**: Whether the customer left within the last month
+                    
+                    This is one of the most widely used datasets for binary classification machine learning problems.
+                    """)
         except Exception as e:
             st.error(f"Error loading sample data: {e}")
             return
@@ -159,39 +179,128 @@ def render_data_preparation_page():
     if data is not None:
         st.session_state.data = data
         
-        st.subheader("Data Preview")
-        st.dataframe(data.head())
+        # Show dataset in tabs for better organization
+        tab1, tab2, tab3 = st.tabs(["Data Preview", "Data Information", "Statistical Summary"])
         
-        st.subheader("Data Information")
-        buffer = StringIO()
-        data.info(buf=buffer)
-        st.text(buffer.getvalue())
+        with tab1:
+            st.dataframe(data.head(10), use_container_width=True)
+            
+            # Show basic stats about the dataset
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                st.metric("Rows", f"{data.shape[0]:,}")
+            with col2:
+                st.metric("Columns", data.shape[1])
+            with col3:
+                st.metric("Missing Values", f"{data.isna().sum().sum():,}")
         
-        st.subheader("Statistical Summary")
-        st.dataframe(data.describe())
+        with tab2:
+            buffer = StringIO()
+            data.info(buf=buffer)
+            st.text(buffer.getvalue())
+            
+            # Show column types
+            col_types = data.dtypes.value_counts().reset_index()
+            col_types.columns = ['Data Type', 'Count']
+            st.subheader("Column Data Types")
+            st.dataframe(col_types)
+            
+        with tab3:
+            st.dataframe(data.describe(include='all'), use_container_width=True)
         
         st.subheader("Data Preparation")
         
-        # Select target column
-        target_column = st.selectbox("Select target column:", data.columns.tolist())
+        # Pre-select appropriate values for Telco dataset if it's being used
+        is_telco = False
+        if data_option == "Use sample Telco Customer Churn dataset":
+            is_telco = True
+            default_target = "Churn"
+            default_drop = ["customerID"]
+            
+            # Use knowledge of Telco dataset to pre-select columns
+            default_categorical = [
+                'gender', 'Partner', 'Dependents', 'PhoneService', 'MultipleLines',
+                'InternetService', 'OnlineSecurity', 'OnlineBackup', 'DeviceProtection',
+                'TechSupport', 'StreamingTV', 'StreamingMovies', 'Contract', 
+                'PaperlessBilling', 'PaymentMethod'
+            ]
+            
+            default_numerical = [
+                'tenure', 'MonthlyCharges', 'TotalCharges'
+            ]
+            
+            # Information box about column types
+            st.info("""
+            #### Column Type Information:
+            
+            - **Target Column**: The main variable we're trying to predict (Churn - whether a customer left the company)
+            - **Categorical Columns**: Variables with distinct categories (like gender, contract type)
+            - **Numerical Columns**: Quantitative measurements (like tenure, monthly charges)
+            - **Columns to Drop**: Variables not useful for analysis (like customerID)
+            """)
+        else:
+            default_target = ""
+            default_drop = [col for col in data.columns if col.lower() in ['id', 'customerid', 'customer_id']]
+            default_categorical = []
+            default_numerical = []
+        
+        # Select target column with appropriate default
+        if is_telco:
+            target_column = st.selectbox(
+                "Select target column:", 
+                data.columns.tolist(), 
+                index=data.columns.get_loc(default_target) if default_target in data.columns else 0
+            )
+        else:
+            target_column = st.selectbox("Select target column:", data.columns.tolist())
+            
         st.session_state.target_column = target_column
         
-        # Handle categorical and numerical columns
-        columns_to_drop = st.multiselect("Select columns to drop (e.g., ID columns):", 
-                                        data.columns.tolist(), 
-                                        default=[col for col in data.columns if col.lower() in ['id', 'customerid', 'customer_id']])
-        
-        categorical_columns = st.multiselect(
-            "Select categorical columns:",
-            [col for col in data.columns if col not in columns_to_drop and col != target_column and data[col].dtype == 'object']
+        # Handle columns to drop with appropriate defaults
+        columns_to_drop = st.multiselect(
+            "Select columns to drop (e.g., ID columns):", 
+            data.columns.tolist(), 
+            default=[col for col in default_drop if col in data.columns]
         )
+        
+        # Handle categorical columns with appropriate defaults
+        if is_telco:
+            categorical_candidates = [col for col in data.columns if col not in columns_to_drop and col != target_column and data[col].dtype == 'object']
+            categorical_columns = st.multiselect(
+                "Select categorical columns:",
+                categorical_candidates,
+                default=[col for col in default_categorical if col in categorical_candidates]
+            )
+        else:
+            categorical_columns = st.multiselect(
+                "Select categorical columns:",
+                [col for col in data.columns if col not in columns_to_drop and col != target_column and data[col].dtype == 'object']
+            )
         st.session_state.categorical_columns = categorical_columns
         
-        numerical_columns = st.multiselect(
-            "Select numerical columns:",
-            [col for col in data.columns if col not in columns_to_drop and col != target_column and data[col].dtype != 'object']
-        )
+        # Handle numerical columns with appropriate defaults
+        if is_telco:
+            numerical_candidates = [col for col in data.columns if col not in columns_to_drop and col != target_column and data[col].dtype != 'object']
+            numerical_columns = st.multiselect(
+                "Select numerical columns:",
+                numerical_candidates,
+                default=[col for col in default_numerical if col in numerical_candidates]
+            )
+        else:
+            numerical_columns = st.multiselect(
+                "Select numerical columns:",
+                [col for col in data.columns if col not in columns_to_drop and col != target_column and data[col].dtype != 'object']
+            )
         st.session_state.numerical_columns = numerical_columns
+        
+        # Show feature selection summary
+        if categorical_columns or numerical_columns:
+            st.success(f"Selected {len(categorical_columns)} categorical features and {len(numerical_columns)} numerical features for modeling")
+            
+            # Visual indicator of selected features
+            feature_count = len(categorical_columns) + len(numerical_columns)
+            total_count = len(data.columns) - len(columns_to_drop) - 1  # Excluding target and dropped columns
+            st.progress(feature_count / total_count if total_count > 0 else 0)
         
         # Handle missing values
         handle_missing = st.checkbox("Handle missing values", value=True)
@@ -459,50 +568,192 @@ def render_hyperparameter_tuning_page():
                     st.error(f"Error during hyperparameter tuning: {e}")
 
 def render_comparison_dashboard():
-    st.title("Model Comparison Dashboard")
+    st.title("🏆 Model Comparison Dashboard")
     
     if not st.session_state.evaluation_results:
         st.warning("Please train your models first in the Model Training section.")
         return
     
-    st.write("Compare the performance of all trained models in one place.")
+    # Add a descriptive introduction with explanation of this page
+    st.markdown("""
+    <div class="info-box">
+    <h4 style="margin-top:0">Comprehensive Model Analysis</h4>
+    <p>This dashboard provides side-by-side comparison of all trained models, allowing you to quickly identify the best performing models
+    across different evaluation metrics. Compare standard models against tuned variations to see the impact of hyperparameter optimization.</p>
+    </div>
+    """, unsafe_allow_html=True)
     
-    # Overall comparison chart
-    st.subheader("Performance Metrics Comparison")
+    # Create tabs for different views
+    tab1, tab2, tab3 = st.tabs(["📊 Performance Metrics", "📈 Visualizations", "⚙️ Implementation Details"])
     
     # Combine original and tuned models if available
     all_results = st.session_state.evaluation_results.copy()
     for model_name, tuned_info in st.session_state.hp_results.items():
         all_results[f"Tuned {model_name}"] = tuned_info['tuned_evaluation']
     
-    metrics_df = plot_model_comparison(all_results)
-    st.dataframe(metrics_df)
+    with tab1:
+        st.subheader("Performance Metrics Comparison")
+        
+        # Create a more visually appealing styled metrics dataframe
+        metrics_df = plot_model_comparison(all_results)
+        
+        # Determine best model for each metric
+        best_model = {}
+        for metric in ['Accuracy', 'Precision', 'Recall', 'F1 Score', 'ROC AUC']:
+            if metric in metrics_df.columns:
+                best_idx = metrics_df[metric].idxmax()
+                best_model[metric] = (best_idx, metrics_df.loc[best_idx, metric])
+        
+        # Display metrics dataframe with styling
+        st.dataframe(metrics_df.style.highlight_max(axis=0, color='#DCFCE7'), use_container_width=True)
+        
+        # Show summary cards for quick reference
+        if best_model:
+            st.markdown("### 🏆 Best Model by Metric")
+            
+            # Create summary metrics cards
+            cols = st.columns(len(best_model))
+            for i, (metric, (model, value)) in enumerate(best_model.items()):
+                with cols[i]:
+                    st.markdown(f"""
+                    <div style="padding: 1rem; background: linear-gradient(90deg, rgba(53, 99, 233, 0.1), rgba(53, 99, 233, 0.05)); 
+                                border-radius: 0.5rem; border-left: 4px solid #3563E9; text-align: center;">
+                        <div style="font-size: 0.85rem; color: #6B7280; margin-bottom: 0.5rem;">{metric}</div>
+                        <div style="font-size: 1.2rem; font-weight: bold; color: #1E3A8A; margin-bottom: 0.5rem;">{value:.4f}</div>
+                        <div style="font-size: 0.9rem; color: #374151; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{model}</div>
+                    </div>
+                    """, unsafe_allow_html=True)
+        
+        # Show interactive metric exploration
+        st.markdown("### 📊 Metric Details")
+        selected_metric = st.selectbox(
+            "Select a metric to explore in depth:", 
+            ['Accuracy', 'Precision', 'Recall', 'F1 Score', 'ROC AUC'], 
+            index=0
+        )
+        
+        # Show percent difference from the best model
+        if selected_metric in metrics_df.columns:
+            best_value = metrics_df[selected_metric].max()
+            st.markdown(f"**Best {selected_metric}:** {best_value:.4f} (Model: {metrics_df[selected_metric].idxmax()})")
+            
+            # Calculate percent differences for comparison
+            comp_df = pd.DataFrame({
+                'Model': metrics_df.index,
+                'Value': metrics_df[selected_metric],
+                'Difference from Best (%)': 100 * (metrics_df[selected_metric] - best_value) / best_value
+            }).sort_values('Value', ascending=False)
+            
+            st.dataframe(comp_df.style.format({
+                'Value': '{:.4f}',
+                'Difference from Best (%)': '{:.2f}%'
+            }).background_gradient(subset=['Value'], cmap='Blues'), use_container_width=True)
     
-    # Visualize comparison
-    st.subheader("Visual Comparison")
-    
-    # Bar chart comparison
-    st.write("Performance Metrics")
-    metric_choice = st.selectbox(
-        "Select metric to compare:", 
-        ["accuracy", "precision", "recall", "f1", "roc_auc"]
-    )
-    
-    fig, ax = plt.subplots(figsize=(10, 6))
-    metric_values = [results[metric_choice] for results in all_results.values()]
-    bars = ax.bar(all_results.keys(), metric_values, color='skyblue')
-    
-    # Add values on top of bars
-    for bar in bars:
-        height = bar.get_height()
-        ax.text(bar.get_x() + bar.get_width()/2., height + 0.01,
-                f'{height:.4f}', ha='center', va='bottom', rotation=0)
-    
-    plt.title(f'Comparison of {metric_choice.upper()} across models')
-    plt.xticks(rotation=45, ha='right')
-    plt.ylim(0, max(metric_values) * 1.15)  # Add some space above the highest bar
-    plt.tight_layout()
-    st.pyplot(fig)
+    with tab2:
+        # Bar chart comparison with improved styling
+        st.subheader("Performance Visualization")
+        
+        col1, col2 = st.columns([3, 1])
+        with col1:
+            metric_choice = st.selectbox(
+                "Select metric to compare:", 
+                ["accuracy", "precision", "recall", "f1", "roc_auc"],
+                format_func=lambda x: {
+                    "accuracy": "Accuracy", 
+                    "precision": "Precision", 
+                    "recall": "Recall", 
+                    "f1": "F1 Score", 
+                    "roc_auc": "ROC AUC"
+                }[x]
+            )
+        
+        with col2:
+            # Add some visual enhancements options
+            show_value_labels = st.checkbox("Show value labels", value=True)
+            
+        # Apply custom styling to make more visually appealing
+        from utils import set_matplotlib_style
+        colors = set_matplotlib_style()
+            
+        # Create enhanced bar chart
+        fig, ax = plt.subplots(figsize=(12, 6), facecolor='white')
+        fig.patch.set_facecolor('white')
+        
+        # Get metric values and sort from highest to lowest
+        model_metrics = [(model, results[metric_choice]) for model, results in all_results.items()]
+        model_metrics.sort(key=lambda x: x[1], reverse=True)
+        
+        models, metric_values = zip(*model_metrics)
+        
+        # Generate gradient color palette for models
+        color_mapping = {}
+        for i, model in enumerate(models):
+            if "Tuned" in model:
+                # Use a specific color for tuned models to differentiate them
+                color_mapping[model] = colors[1]  # Use second color for tuned models
+            else:
+                color_mapping[model] = colors[0]  # Use first color for base models
+        
+        model_colors = [color_mapping[model] for model in models]
+            
+        # Create the bar chart with enhanced styling
+        bars = ax.bar(
+            models, metric_values, 
+            color=model_colors,
+            edgecolor='white',
+            linewidth=1.5,
+            alpha=0.8
+        )
+        
+        # Highlight best model with additional marker
+        best_idx = metric_values.index(max(metric_values))
+        bars[best_idx].set_color(colors[2])  # Use third color for best model
+        bars[best_idx].set_alpha(1.0)
+        
+        # Add a subtle grid
+        ax.grid(axis='y', linestyle='--', alpha=0.3)
+        
+        # Add value labels if chosen
+        if show_value_labels:
+            for bar in bars:
+                height = bar.get_height()
+                ax.text(
+                    bar.get_x() + bar.get_width()/2., 
+                    height + 0.005,
+                    f'{height:.4f}', 
+                    ha='center', 
+                    va='bottom', 
+                    fontsize=10,
+                    fontweight='bold',
+                    color='#444'
+                )
+        
+        # Enhanced styling
+        ax.set_title(f'Comparison of {metric_choice.upper()} across models', 
+                     fontsize=16, fontweight='bold', pad=20)
+        ax.set_xlabel('Models', fontsize=12, fontweight='semibold', labelpad=10)
+        ax.set_ylabel(f'{metric_choice.title()} Score', fontsize=12, fontweight='semibold', labelpad=10)
+        
+        # Style x-axis ticks
+        plt.xticks(rotation=45, ha='right')
+        
+        # Add some space above the highest bar
+        plt.ylim(0, max(metric_values) * 1.15)  
+        
+        # Add explanatory text
+        if "Tuned" in "".join(models):
+            ax.text(
+                0.5, 0.02, 
+                "Note: 'Tuned' models have undergone hyperparameter optimization", 
+                transform=fig.transFigure,
+                ha='center',
+                fontsize=10,
+                fontstyle='italic',
+                color='#666'
+            )
+        
+        plt.tight_layout()
+        st.pyplot(fig)
     
     # ROC curves comparison
     st.write("ROC Curves Comparison")
