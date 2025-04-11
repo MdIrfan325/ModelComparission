@@ -17,12 +17,12 @@ def set_page_config():
     # Set custom theme using CSS
     st.markdown("""
     <style>
-    /* Main background with subtle gradient */
+    /* Main background with a more appealing color theme */
     .main {
-        background-color: #f0f7ff;
+        background-color: #f8f9fc;
     }
     .stApp {
-        background: linear-gradient(135deg, #f0f7ff 0%, #e6f0ff 50%, #d9e9ff 100%);
+        background: linear-gradient(135deg, #f8f9fc 0%, #eef2ff 50%, #e0e7ff 100%);
     }
     .css-18e3th9 {
         padding-top: 2rem;
@@ -30,63 +30,95 @@ def set_page_config():
     
     /* Vibrant heading styles with gradient effects */
     h1, h2, h3 {
-        color: #1E3A8A;
+        color: #4338ca;
         font-weight: 600;
     }
     h1 {
-        background: linear-gradient(45deg, #4338ca, #3b82f6, #60a5fa);
+        background: linear-gradient(45deg, #4338ca, #6366f1, #818cf8);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         font-size: 2.5rem;
         margin-bottom: 1.5rem;
         padding: 10px 0;
-        text-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+        text-shadow: 0 0 30px rgba(99, 102, 241, 0.3);
     }
     h2 {
         color: #4f46e5;
-        border-bottom: 2px solid #dbeafe;
+        border-bottom: 2px solid #e0e7ff;
         padding-bottom: 8px;
     }
     h3 {
         color: #4f46e5;
     }
     
-    /* Sidebar with vibrant gradient and better contrast */
+    /* Sidebar with a more readable color scheme */
     [data-testid="stSidebar"] {
-        background: linear-gradient(175deg, #4338ca, #3b82f6, #60a5fa);
-        border-right: 1px solid rgba(219, 234, 254, 0.3);
+        background: linear-gradient(175deg, #4338ca, #6366f1);
+        border-right: 1px solid rgba(99, 102, 241, 0.3);
+        padding: 1rem 0;
     }
     [data-testid="stSidebar"] [data-testid="stVerticalBlock"] {
-        padding-top: 1rem;
+        padding-top: 0.5rem;
         gap: 0.5rem;
     }
-    /* Sidebar text coloring */
-    [data-testid="stSidebar"] .css-6qob1r,
-    [data-testid="stSidebar"] p,
-    [data-testid="stSidebar"] h2,
-    [data-testid="stSidebar"] h3,
-    [data-testid="stSidebar"] h4,
-    [data-testid="stSidebar"] div {
+    
+    /* Sidebar title and heading styles */
+    [data-testid="stSidebar"] .css-6qob1r {
         color: white !important;
     }
+    [data-testid="stSidebar"] p {
+        color: white !important;
+    }
+    
+    /* Fix for navigation text */
+    [data-testid="stSidebar"] [data-testid="baseButton-headerNoPadding"] {
+        color: white !important;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 6px;
+        margin-bottom: 0.2rem;
+        padding: 0.5rem !important;
+    }
+    
+    /* Make sidebar navigation items stand out on hover */
+    [data-testid="stSidebar"] [data-testid="baseButton-headerNoPadding"]:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        transition: all 0.2s ease;
+    }
+    
     /* Sidebar headers - make them stand out */
     [data-testid="stSidebar"] h3 {
         color: white !important;
         font-weight: 600;
-        padding: 15px 0 10px 0;
+        padding: 15px 15px 10px 15px;
         margin-top: 10px;
         border-bottom: 1px solid rgba(255, 255, 255, 0.3);
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
-    /* Style selectbox in sidebar */
+    
+    /* Ensure dropdowns and selections have visible text */
+    [data-testid="stSidebar"] select option {
+        color: #111827 !important;
+        background-color: white;
+    }
+    
+    /* Style for select option in sidebar */
+    [data-testid="stSidebar"] [data-testid="stSelectbox"] > div > div > div {
+        color: white !important;
+        font-weight: 500;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Dropdown background color */
     [data-testid="stSidebar"] [data-testid="stSelectbox"] {
         background-color: rgba(255, 255, 255, 0.15);
         border-radius: 8px;
-        margin-bottom: 12px;
-        padding: 5px;
+        padding: 8px 10px;
+        margin: 5px 0 10px 0;
+        border: 1px solid rgba(255, 255, 255, 0.2);
     }
-    /* Selectbox text and elements */
-    [data-testid="stSidebar"] [data-testid="stSelectbox"] div {
+    
+    /* Make the arrows in dropdowns visible */
+    [data-testid="stSidebar"] [data-testid="stSelectbox"] svg {
         color: white !important;
     }
     
@@ -380,28 +412,38 @@ def display_footer():
     st.markdown(
         """
         <div style="background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 50%, #60a5fa 100%); 
-                    padding: 1.2rem; border-radius: 10px; margin-top: 2rem; box-shadow: 0 4px 6px rgba(59, 130, 246, 0.2);">
-            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;">
-                <div style="margin-right: 20px;">
-                    <div style="font-weight: bold; font-size: 1.2em; color: white; margin-bottom: 5px;">ML Model Comparison Dashboard</div>
-                    <div style="font-size: 0.85em; color: rgba(255, 255, 255, 0.9); margin-bottom: 5px;">
-                        A premium tool for comparing machine learning classification models
-                    </div>
-                </div>
-                <div style="text-align: right; border-left: 1px solid rgba(255, 255, 255, 0.2); padding-left: 20px;">
-                    <div style="font-size: 0.9em; color: white; margin-bottom: 5px;">
-                        Created by: <span style="font-weight: 600; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);">Mohammed Irfan</span> 
-                    </div>
-                    <div style="font-size: 0.85em;">
-                        <a href="mailto:mi3253050@gmail.com" style="color: white; text-decoration: none; border-bottom: 1px dotted rgba(255, 255, 255, 0.5);">
-                            mi3253050@gmail.com
-                        </a>
-                    </div>
-                    <div style="font-size: 0.75em; color: rgba(255, 255, 255, 0.7); margin-top: 5px;">
-                        © 2025 • Premium Machine Learning Visualization Tool
-                    </div>
-                </div>
-            </div>
+                    padding: 1.5rem; border-radius: 10px; margin-top: 2rem; box-shadow: 0 4px 6px rgba(59, 130, 246, 0.2);">
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr>
+                    <td style="width: 70%; vertical-align: middle; padding-right: 30px;">
+                        <div style="font-weight: bold; font-size: 1.3em; color: white; margin-bottom: 8px;">
+                            ML Model Comparison Dashboard
+                        </div>
+                        <div style="font-size: 0.9em; color: rgba(255, 255, 255, 0.9); line-height: 1.4;">
+                            A premium tool for comparing machine learning classification models with comprehensive metrics, 
+                            visualizations, and optimization capabilities.
+                        </div>
+                    </td>
+                    <td style="width: 30%; vertical-align: middle; border-left: 1px solid rgba(255, 255, 255, 0.3); padding-left: 30px;">
+                        <div style="font-size: 0.9em; color: white; margin-bottom: 5px;">
+                            <strong>Created by:</strong>
+                        </div>
+                        <div style="font-weight: 600; font-size: 1.1em; color: white; margin-bottom: 10px; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);">
+                            Mohammed Irfan
+                        </div>
+                        <div style="font-size: 0.9em; margin-bottom: 8px;">
+                            <a href="mailto:mi3253050@gmail.com" 
+                               style="color: white; text-decoration: none; background-color: rgba(255, 255, 255, 0.2); 
+                                     padding: 5px 10px; border-radius: 5px; display: inline-block;">
+                                mi3253050@gmail.com
+                            </a>
+                        </div>
+                        <div style="font-size: 0.8em; color: rgba(255, 255, 255, 0.8);">
+                            © 2025 • Premium ML Visualization Tool
+                        </div>
+                    </td>
+                </tr>
+            </table>
         </div>
         """,
         unsafe_allow_html=True

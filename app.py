@@ -239,17 +239,17 @@ def render_home_page():
     
     with tab1:
         st.image("https://scikit-learn.org/stable/_images/sphx_glr_plot_roc_001.png", 
-                 use_column_width=True,
+                 use_container_width=True,
                  caption="ROC Curve Analysis helps visualize model performance at different classification thresholds")
     
     with tab2:
         st.image("https://scikit-learn.org/stable/_images/sphx_glr_plot_confusion_matrix_001.png", 
-                 use_column_width=True,
+                 use_container_width=True,
                  caption="Confusion Matrices show how models perform across different classes")
     
     with tab3:
         st.image("https://scikit-learn.org/stable/_images/sphx_glr_plot_classifier_comparison_001.png", 
-                 use_column_width=True,
+                 use_container_width=True,
                  caption="Visual comparison of different classification algorithms on various datasets")
 
 def render_data_preparation_page():
