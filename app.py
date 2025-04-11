@@ -251,6 +251,13 @@ def render_model_training_page():
     use_gb = st.checkbox("Gradient Boosting", value=True)
     use_xgb = st.checkbox("XGBoost", value=True)
     
+    # Optimal hyperparameters option
+    use_optimal = st.checkbox("Use optimal hyperparameters", value=True, 
+                             help="Use pre-defined optimal hyperparameters for each model instead of default values")
+    
+    if use_optimal:
+        st.info("Using optimal hyperparameters for the selected models. These are research-based parameters that often work well for classification tasks.")
+    
     # Training button
     if st.button("Train Models"):
         if not any([use_lr, use_dt, use_rf, use_gb, use_xgb]):
@@ -271,7 +278,8 @@ def render_model_training_page():
                 models = train_models(
                     st.session_state.X_train, 
                     st.session_state.y_train,
-                    models_to_train
+                    models_to_train,
+                    use_optimal
                 )
                 
                 # Save models to session state
