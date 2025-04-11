@@ -80,49 +80,177 @@ def main():
 def render_home_page():
     st.title("🧠 Interactive ML Model Comparison Dashboard")
     
+    # Hero section with gradient background
     st.markdown("""
-    ### Welcome to the Premium Machine Learning Model Comparison Platform
+    <div style="background: linear-gradient(120deg, rgba(53, 99, 233, 0.1), rgba(53, 99, 233, 0.05)); 
+                padding: 20px; border-radius: 10px; margin-bottom: 25px; border-left: 5px solid #3563E9;">
+        <h2 style="color: #1E3A8A; margin-top: 0;">Premium Machine Learning Model Comparison Platform</h2>
+        <p style="font-size: 1.1em; color: #4B5563;">
+            Discover which machine learning models perform best for your classification tasks with this comprehensive
+            interactive dashboard. Compare algorithms, visualize performance metrics, and optimize hyperparameters—all in one place.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
     
-    This interactive dashboard allows you to:
-    - 📊 Prepare and analyze your classification dataset
-    - 🔬 Train multiple machine learning models
-    - 📈 Evaluate and compare model performance
-    - 🛠️ Perform hyperparameter tuning to optimize models
-    - 📊 Visualize results with interactive charts and graphs
-    
-    ### Get Started
-    1. Navigate to the **Data Preparation** section to upload or use sample data
-    2. Proceed to **Model Training** to train various classification models
-    3. View detailed metrics in the **Model Evaluation** section
-    4. Optimize models in the **Hyperparameter Tuning** section
-    5. Compare all results in the **Comparison Dashboard**
-    
-    ### Included Models
-    - Logistic Regression
-    - Decision Tree
-    - Random Forest
-    - Gradient Boosting
-    - XGBoost
-    
-    ### Available Metrics
-    - Accuracy, Precision, Recall, F1-Score
-    - ROC Curves and AUC
-    - Confusion Matrices
-    - Feature Importance
-    """)
-    
-    st.info("👈 Use the sidebar to navigate through different sections of the application.")
-    
-    # Display sample images of what the dashboard can produce
-    st.subheader("Example Visualizations")
+    # Key features in cards
+    st.markdown("### 🚀 Key Features")
     
     col1, col2 = st.columns(2)
+    
     with col1:
-        st.image("https://scikit-learn.org/stable/_images/sphx_glr_plot_classifier_comparison_001.png", 
-                 caption="Model Comparison Visualization")
+        st.markdown("""
+        <div style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100%;">
+            <h4 style="color: #1E3A8A; margin-top: 0; border-bottom: 2px solid #3563E9; padding-bottom: 8px;">
+                📊 Model Comparison
+            </h4>
+            <ul style="color: #4B5563;">
+                <li>Compare 5+ classification algorithms side-by-side</li>
+                <li>Visualize performance with interactive charts</li>
+                <li>See training times and resource requirements</li>
+                <li>Identify the best model for your specific dataset</li>
+            </ul>
+        </div>
+        """, unsafe_allow_html=True)
+    
     with col2:
+        st.markdown("""
+        <div style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100%;">
+            <h4 style="color: #1E3A8A; margin-top: 0; border-bottom: 2px solid #3563E9; padding-bottom: 8px;">
+                🛠️ Hyperparameter Tuning
+            </h4>
+            <ul style="color: #4B5563;">
+                <li>Optimize model parameters automatically</li>
+                <li>Visualize parameter impact on performance</li>
+                <li>Use pre-configured optimal parameters</li>
+                <li>Compare tuned vs baseline models</li>
+            </ul>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    # Getting started section
+    st.markdown("### 🏁 Getting Started")
+    
+    st.markdown("""
+    <div style="background-color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+        <ol style="color: #4B5563; margin-bottom: 0;">
+            <li><strong style="color: #1E3A8A;">Data Preparation</strong> - Upload your dataset or use our sample Telco Customer Churn data</li>
+            <li><strong style="color: #1E3A8A;">Model Training</strong> - Select and train multiple classification models simultaneously</li>
+            <li><strong style="color: #1E3A8A;">Model Evaluation</strong> - Review detailed performance metrics for each model</li>
+            <li><strong style="color: #1E3A8A;">Hyperparameter Tuning</strong> - Optimize model parameters to improve performance</li>
+            <li><strong style="color: #1E3A8A;">Comparison Dashboard</strong> - Compare all models and download the best one for deployment</li>
+        </ol>
+    </div>
+    
+    <div style="background-color: rgba(53, 99, 233, 0.1); padding: 12px 20px; border-radius: 8px; margin-bottom: 25px; display: flex; align-items: center;">
+        <div style="color: #3563E9; font-size: 24px; margin-right: 15px;">👈</div>
+        <div style="color: #1E3A8A;">Use the sidebar to navigate through different sections of the application.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Models and metrics section 
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("""
+        <div style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+            <h4 style="color: #1E3A8A; margin-top: 0; border-bottom: 2px solid #3563E9; padding-bottom: 8px;">
+                📊 Included Models
+            </h4>
+            <ul style="color: #4B5563; list-style-type: none; padding-left: 0;">
+                <li style="padding: 6px 0; border-bottom: 1px solid #f3f4f6;">
+                    <span style="color: #3563E9; font-weight: 600;">Logistic Regression</span> - 
+                    <span style="font-size: 0.9em; color: #6B7280;">Linear model for binary classification</span>
+                </li>
+                <li style="padding: 6px 0; border-bottom: 1px solid #f3f4f6;">
+                    <span style="color: #3563E9; font-weight: 600;">Decision Tree</span> - 
+                    <span style="font-size: 0.9em; color: #6B7280;">Tree-based model with clear decision paths</span>
+                </li>
+                <li style="padding: 6px 0; border-bottom: 1px solid #f3f4f6;">
+                    <span style="color: #3563E9; font-weight: 600;">Random Forest</span> - 
+                    <span style="font-size: 0.9em; color: #6B7280;">Ensemble of trees with high accuracy</span>
+                </li>
+                <li style="padding: 6px 0; border-bottom: 1px solid #f3f4f6;">
+                    <span style="color: #3563E9; font-weight: 600;">Gradient Boosting</span> - 
+                    <span style="font-size: 0.9em; color: #6B7280;">Sequential ensemble learning method</span>
+                </li>
+                <li style="padding: 6px 0;">
+                    <span style="color: #3563E9; font-weight: 600;">XGBoost</span> - 
+                    <span style="font-size: 0.9em; color: #6B7280;">Optimized gradient boosting implementation</span>
+                </li>
+            </ul>
+        </div>
+        """, unsafe_allow_html=True)
+        
+    with col2:
+        st.markdown("""
+        <div style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+            <h4 style="color: #1E3A8A; margin-top: 0; border-bottom: 2px solid #3563E9; padding-bottom: 8px;">
+                📈 Performance Metrics
+            </h4>
+            <ul style="color: #4B5563; list-style-type: none; padding-left: 0;">
+                <li style="padding: 6px 0; border-bottom: 1px solid #f3f4f6;">
+                    <span style="color: #3563E9; font-weight: 600;">Accuracy, Precision, Recall, F1</span> - 
+                    <span style="font-size: 0.9em; color: #6B7280;">Core classification performance metrics</span>
+                </li>
+                <li style="padding: 6px 0; border-bottom: 1px solid #f3f4f6;">
+                    <span style="color: #3563E9; font-weight: 600;">ROC Curves & AUC</span> - 
+                    <span style="font-size: 0.9em; color: #6B7280;">Visualize true/false positive rate tradeoffs</span>
+                </li>
+                <li style="padding: 6px 0; border-bottom: 1px solid #f3f4f6;">
+                    <span style="color: #3563E9; font-weight: 600;">Confusion Matrices</span> - 
+                    <span style="font-size: 0.9em; color: #6B7280;">Detailed breakdown of predictions</span>
+                </li>
+                <li style="padding: 6px 0; border-bottom: 1px solid #f3f4f6;">
+                    <span style="color: #3563E9; font-weight: 600;">Feature Importance</span> - 
+                    <span style="font-size: 0.9em; color: #6B7280;">Identify which features drive predictions</span>
+                </li>
+                <li style="padding: 6px 0;">
+                    <span style="color: #3563E9; font-weight: 600;">Training Times</span> - 
+                    <span style="font-size: 0.9em; color: #6B7280;">Computational efficiency metrics</span>
+                </li>
+            </ul>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    # Final CTA
+    st.markdown("""
+    <div style="background: linear-gradient(120deg, #3563E9, #1E3A8A); 
+                padding: 25px; border-radius: 10px; margin-top: 25px; text-align: center; color: white;">
+        <h3 style="margin-top: 0; color: white;">Ready to Compare ML Models?</h3>
+        <p style="font-size: 1.1em; margin-bottom: 20px;">
+            Start with the Telco Customer Churn dataset to see how different models predict customer churn.
+        </p>
+        <div style="margin-top: 10px; font-size: 0.9em; color: rgba(255,255,255,0.8);">
+            Quick Links: &nbsp;
+            <a href="javascript:void(0)" onclick="document.querySelectorAll('[data-testid=stSidebarNav] ul li a')[1].click()" 
+               style="color: white; text-decoration: underline; margin: 0 5px;">Data Preparation</a> &nbsp;|&nbsp;
+            <a href="javascript:void(0)" onclick="document.querySelectorAll('[data-testid=stSidebarNav] ul li a')[2].click()" 
+               style="color: white; text-decoration: underline; margin: 0 5px;">Model Training</a> &nbsp;|&nbsp;
+            <a href="javascript:void(0)" onclick="document.querySelectorAll('[data-testid=stSidebarNav] ul li a')[5].click()" 
+               style="color: white; text-decoration: underline; margin: 0 5px;">Comparison Dashboard</a>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Visualization examples
+    st.markdown("### 📊 Example Visualizations")
+    
+    tab1, tab2, tab3 = st.tabs(["📈 ROC Curves", "🔄 Confusion Matrix", "📊 Model Comparison"])
+    
+    with tab1:
         st.image("https://scikit-learn.org/stable/_images/sphx_glr_plot_roc_001.png", 
-                 caption="ROC Curve Analysis")
+                 use_column_width=True,
+                 caption="ROC Curve Analysis helps visualize model performance at different classification thresholds")
+    
+    with tab2:
+        st.image("https://scikit-learn.org/stable/_images/sphx_glr_plot_confusion_matrix_001.png", 
+                 use_column_width=True,
+                 caption="Confusion Matrices show how models perform across different classes")
+    
+    with tab3:
+        st.image("https://scikit-learn.org/stable/_images/sphx_glr_plot_classifier_comparison_001.png", 
+                 use_column_width=True,
+                 caption="Visual comparison of different classification algorithms on various datasets")
 
 def render_data_preparation_page():
     st.title("Data Preparation")
@@ -754,47 +882,372 @@ def render_comparison_dashboard():
         
         plt.tight_layout()
         st.pyplot(fig)
+        
+        # More visualizations in the second tab
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.subheader("ROC Curves Comparison")
+            st.markdown("""
+            <div style="background-color: rgba(53, 99, 233, 0.1); padding: 10px; border-radius: 5px; margin-bottom: 15px;">
+            <small>
+            <strong>About ROC Curves:</strong> The Receiver Operating Characteristic (ROC) curve shows the trade-off between 
+            true positive rate and false positive rate at various threshold settings. The closer the curve follows the top-left 
+            corner, the better the model performs. The Area Under the Curve (AUC) quantifies performance in a single number.
+            </small>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            roc_fig = plot_roc_curves(all_results)
+            st.pyplot(roc_fig)
+        
+        with col2:
+            st.subheader("Training Time Comparison")
+            st.markdown("""
+            <div style="background-color: rgba(34, 197, 94, 0.1); padding: 10px; border-radius: 5px; margin-bottom: 15px;">
+            <small>
+            <strong>Why This Matters:</strong> Training time measures computational efficiency - how long it takes to build the model.
+            Less complex models typically train faster, but might have lower predictive power. Consider the trade-off 
+            between performance and training time when choosing models for production.
+            </small>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            # Enhanced training time comparison
+            train_times = {}
+            for model_name, model_info in st.session_state.models.items():
+                train_times[model_name] = model_info['train_time']
+            
+            # Sort by training time (ascending)
+            train_times = dict(sorted(train_times.items(), key=lambda x: x[1]))
+            
+            # Color by training time (green for fast, yellow for medium, red for slow)
+            colors = []
+            for time_val in train_times.values():
+                if time_val < 0.5:  # Fast
+                    colors.append('#22C55E')  # Green
+                elif time_val < 2.0:  # Medium
+                    colors.append('#F59E0B')  # Yellow/Amber
+                else:  # Slow
+                    colors.append('#EF4444')  # Red
+            
+            fig, ax = plt.subplots(figsize=(10, 6), facecolor='white')
+            fig.patch.set_facecolor('white')
+            
+            bars = ax.barh(
+                list(train_times.keys()), 
+                list(train_times.values()), 
+                color=colors,
+                alpha=0.8,
+                edgecolor='white',
+                linewidth=1
+            )
+            
+            # Add values inside or next to bars
+            for i, bar in enumerate(bars):
+                width = bar.get_width()
+                ax.text(
+                    width / 2 if width > 0.3 else width + 0.05, 
+                    bar.get_y() + bar.get_height()/2,
+                    f'{width:.4f}s', 
+                    ha='center' if width > 0.3 else 'left',
+                    va='center',
+                    fontsize=10,
+                    fontweight='bold',
+                    color='white' if width > 0.3 else '#444'
+                )
+            
+            ax.set_title('Training Time Comparison', fontsize=14, fontweight='bold', pad=15)
+            ax.set_xlabel('Time (seconds)', fontsize=12, fontweight='semibold', labelpad=10)
+            ax.set_ylabel('Models', fontsize=12, fontweight='semibold', labelpad=10)
+            
+            # Add legend explaining colors
+            from matplotlib.patches import Patch
+            legend_elements = [
+                Patch(facecolor='#22C55E', edgecolor='white', label='Fast (<0.5s)'),
+                Patch(facecolor='#F59E0B', edgecolor='white', label='Medium (0.5-2s)'),
+                Patch(facecolor='#EF4444', edgecolor='white', label='Slow (>2s)')
+            ]
+            ax.legend(handles=legend_elements, loc='lower right')
+            
+            # Style improvements
+            ax.grid(axis='x', linestyle='--', alpha=0.3)
+            ax.spines['top'].set_visible(False)
+            ax.spines['right'].set_visible(False)
+            ax.spines['left'].set_color('#dddddd')
+            ax.spines['bottom'].set_color('#dddddd')
+            
+            plt.tight_layout()
+            st.pyplot(fig)
+        
+        # Confusion matrices
+        st.subheader("Confusion Matrices")
+        st.markdown("""
+        <div style="background-color: rgba(139, 92, 246, 0.1); padding: 10px; border-radius: 5px; margin-bottom: 15px;">
+        <small>
+        <strong>Understanding Confusion Matrices:</strong> These matrices show the count of true positives, true negatives, 
+        false positives, and false negatives for each model. The diagonal cells represent correct predictions, while 
+        off-diagonal cells show where the model made mistakes. Ideally, most predictions should fall on the diagonal.
+        </small>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        cm_fig = plot_confusion_matrices(all_results)
+        st.pyplot(cm_fig)
     
-    # ROC curves comparison
-    st.write("ROC Curves Comparison")
-    roc_fig = plot_roc_curves(all_results)
-    st.pyplot(roc_fig)
-    
-    # Confusion matrices
-    st.write("Confusion Matrices")
-    cm_fig = plot_confusion_matrices(all_results)
-    st.pyplot(cm_fig)
-    
-    # Training time comparison
-    st.write("Training Time Comparison")
-    
-    train_times = {}
-    for model_name, model_info in st.session_state.models.items():
-        train_times[model_name] = model_info['train_time']
-    
-    fig, ax = plt.subplots(figsize=(10, 6))
-    bars = ax.bar(train_times.keys(), train_times.values(), color='lightgreen')
-    
-    # Add values on top of bars
-    for bar in bars:
-        height = bar.get_height()
-        ax.text(bar.get_x() + bar.get_width()/2., height + 0.01,
-                f'{height:.4f}s', ha='center', va='bottom', rotation=0)
-    
-    plt.title('Training Time Comparison (seconds)')
-    plt.xticks(rotation=45, ha='right')
-    plt.tight_layout()
-    st.pyplot(fig)
+    # Implementation details tab content
+    with tab3:
+        st.subheader("Model Implementation Details")
+        
+        st.markdown("""
+        <div class="info-box">
+        <h4 style="margin-top:0">Technical Documentation</h4>
+        <p>This section provides detailed technical information about each model's implementation, hyperparameters, and underlying algorithms. 
+        Understanding these details helps in interpreting model behavior and making informed decisions for model selection and deployment.</p>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        # Expandable sections for each model type
+        model_types = [
+            ("Logistic Regression", "LinearModels"),
+            ("Decision Tree", "TreeModels"), 
+            ("Random Forest", "EnsembleModels"),
+            ("Gradient Boosting", "EnsembleModels"),
+            ("XGBoost", "EnsembleModels")
+        ]
+        
+        for model_name, model_category in model_types:
+            with st.expander(f"{model_name} Details"):
+                # Basic algorithm description
+                if model_name == "Logistic Regression":
+                    st.markdown("""
+                    ### Logistic Regression
+                    
+                    **Algorithm Type**: Linear Model
+                    
+                    **How It Works**: Logistic regression models the probability of the target class by applying the logistic function to a linear combination of features.
+                    It's a simple but powerful algorithm for binary classification problems.
+                    
+                    **Key Hyperparameters**:
+                    - **C**: Inverse of regularization strength (smaller values = stronger regularization)
+                    - **penalty**: Type of regularization ('l1', 'l2', 'elasticnet', or 'none')
+                    - **solver**: Algorithm for optimization problem ('lbfgs', 'liblinear', 'newton-cg', 'newton-cholesky', 'sag', or 'saga')
+                    
+                    **Strengths**:
+                    - Highly interpretable (coefficients indicate feature importance)
+                    - Works well with linearly separable data
+                    - Efficient training and prediction
+                    - Outputs well-calibrated probabilities
+                    
+                    **Limitations**:
+                    - Cannot capture complex non-linear relationships
+                    - May underperform on high-dimensional data with few samples
+                    - Assumes independence among features
+                    """)
+                    
+                    # Show optimal parameters
+                    if model_name in [model for model in st.session_state.models.keys()]:
+                        st.markdown("#### Current Implementation Parameters")
+                        model_params = st.session_state.models[model_name]['model'].get_params()
+                        param_df = pd.DataFrame({
+                            "Parameter": list(model_params.keys()),
+                            "Value": [str(v) for v in model_params.values()]
+                        })
+                        st.dataframe(param_df, use_container_width=True)
+                
+                elif model_name == "Decision Tree":
+                    st.markdown("""
+                    ### Decision Tree
+                    
+                    **Algorithm Type**: Tree-based Model
+                    
+                    **How It Works**: Decision trees recursively split the data based on feature values to create homogeneous subsets.
+                    Each internal node represents a decision based on a feature, and each leaf node represents a class prediction.
+                    
+                    **Key Hyperparameters**:
+                    - **max_depth**: Maximum depth of the tree
+                    - **min_samples_split**: Minimum samples required to split an internal node
+                    - **min_samples_leaf**: Minimum samples required in a leaf node
+                    - **criterion**: Function to measure split quality ('gini' or 'entropy')
+                    
+                    **Strengths**:
+                    - Highly interpretable (can visualize the tree)
+                    - Handles both numerical and categorical features
+                    - Requires minimal data preprocessing
+                    - Captures non-linear relationships and interactions
+                    
+                    **Limitations**:
+                    - Prone to overfitting (especially deep trees)
+                    - High variance (small changes in data can lead to very different trees)
+                    - May not generalize well to unseen data
+                    - Biased toward features with more levels
+                    """)
+                    
+                    # Show optimal parameters
+                    if model_name in [model for model in st.session_state.models.keys()]:
+                        st.markdown("#### Current Implementation Parameters")
+                        model_params = st.session_state.models[model_name]['model'].get_params()
+                        param_df = pd.DataFrame({
+                            "Parameter": list(model_params.keys()),
+                            "Value": [str(v) for v in model_params.values()]
+                        })
+                        st.dataframe(param_df, use_container_width=True)
+                
+                elif model_name == "Random Forest":
+                    st.markdown("""
+                    ### Random Forest
+                    
+                    **Algorithm Type**: Ensemble of Trees
+                    
+                    **How It Works**: Random forest builds multiple decision trees and merges their predictions through voting (classification) 
+                    or averaging (regression). Each tree is trained on a random subset of the data and features, reducing overfitting.
+                    
+                    **Key Hyperparameters**:
+                    - **n_estimators**: Number of trees in the forest
+                    - **max_depth**: Maximum depth of each tree
+                    - **min_samples_split**: Minimum samples required to split a node
+                    - **max_features**: Maximum number of features to consider for splitting
+                    
+                    **Strengths**:
+                    - Reduced overfitting compared to individual decision trees
+                    - Handles large datasets with high dimensionality
+                    - Provides feature importance measures
+                    - Robust to outliers and non-linear data
+                    
+                    **Limitations**:
+                    - Less interpretable than a single decision tree
+                    - Computationally more intensive than simpler models
+                    - May still overfit on noisy data
+                    """)
+                    
+                    # Show optimal parameters
+                    if model_name in [model for model in st.session_state.models.keys()]:
+                        st.markdown("#### Current Implementation Parameters")
+                        model_params = st.session_state.models[model_name]['model'].get_params()
+                        param_df = pd.DataFrame({
+                            "Parameter": list(model_params.keys()),
+                            "Value": [str(v) for v in model_params.values()]
+                        })
+                        st.dataframe(param_df, use_container_width=True)
+                
+                elif model_name == "Gradient Boosting":
+                    st.markdown("""
+                    ### Gradient Boosting
+                    
+                    **Algorithm Type**: Sequential Ensemble
+                    
+                    **How It Works**: Gradient boosting builds trees sequentially, with each tree correcting the errors of 
+                    the combined ensemble of previous trees. It uses gradient descent to minimize a loss function.
+                    
+                    **Key Hyperparameters**:
+                    - **n_estimators**: Number of boosting stages (trees)
+                    - **learning_rate**: Contribution of each tree to the final solution
+                    - **max_depth**: Maximum depth of each tree
+                    - **subsample**: Fraction of samples used for fitting each tree
+                    
+                    **Strengths**:
+                    - Often achieves state-of-the-art performance on structured data
+                    - Handles mixed data types well
+                    - Less prone to overfitting than individual trees (with proper regularization)
+                    - Provides feature importance measures
+                    
+                    **Limitations**:
+                    - Sensitive to outliers
+                    - More hyperparameters to tune
+                    - Sequential nature makes it harder to parallelize
+                    - Can overfit if not properly regularized
+                    """)
+                    
+                    # Show optimal parameters
+                    if model_name in [model for model in st.session_state.models.keys()]:
+                        st.markdown("#### Current Implementation Parameters")
+                        model_params = st.session_state.models[model_name]['model'].get_params()
+                        param_df = pd.DataFrame({
+                            "Parameter": list(model_params.keys()),
+                            "Value": [str(v) for v in model_params.values()]
+                        })
+                        st.dataframe(param_df, use_container_width=True)
+                
+                elif model_name == "XGBoost":
+                    st.markdown("""
+                    ### XGBoost
+                    
+                    **Algorithm Type**: Optimized Gradient Boosting
+                    
+                    **How It Works**: XGBoost (Extreme Gradient Boosting) is an optimized implementation of gradient boosting 
+                    with additional regularization features. It uses a more regularized model formalization to prevent overfitting.
+                    
+                    **Key Hyperparameters**:
+                    - **n_estimators**: Number of boosting rounds
+                    - **learning_rate**: Step size shrinkage to prevent overfitting
+                    - **max_depth**: Maximum depth of a tree
+                    - **subsample**: Subsample ratio of training instances
+                    - **colsample_bytree**: Subsample ratio of columns when constructing each tree
+                    - **gamma**: Minimum loss reduction required for a split
+                    - **reg_alpha/reg_lambda**: L1/L2 regularization terms
+                    
+                    **Strengths**:
+                    - Superior performance on structured/tabular data
+                    - Built-in regularization
+                    - Handles missing values internally
+                    - Efficient implementation (speed and memory usage)
+                    
+                    **Limitations**:
+                    - Many hyperparameters to tune
+                    - Can overfit on small datasets
+                    - Less interpretable than simpler models
+                    """)
+                    
+                    # Show optimal parameters
+                    if model_name in [model for model in st.session_state.models.keys()]:
+                        st.markdown("#### Current Implementation Parameters")
+                        model_params = st.session_state.models[model_name]['model'].get_params()
+                        param_df = pd.DataFrame({
+                            "Parameter": list(model_params.keys()),
+                            "Value": [str(v) for v in model_params.values()]
+                        })
+                        st.dataframe(param_df, use_container_width=True)
+        
+        # Model selection guide
+        st.subheader("Model Selection Guide")
+        st.markdown("""
+        <div style="background-color: rgba(53, 99, 233, 0.1); padding: 15px; border-radius: 8px; margin: 15px 0;">
+        <h4 style="margin-top: 0; color: #1E3A8A;">How to Choose the Right Model</h4>
+        
+        <p><strong>For small datasets with clear patterns:</strong>
+        Logistic Regression or Decision Trees are good starting points as they're less likely to overfit and provide intuitive explanations.</p>
+        
+        <p><strong>For complex relationships:</strong>
+        Random Forest or Gradient Boosting generally perform better when relationships between features and target are non-linear.</p>
+        
+        <p><strong>When performance is critical:</strong>
+        XGBoost typically achieves the best performance, especially after hyperparameter tuning.</p>
+        
+        <p><strong>When interpretability matters:</strong>
+        Logistic Regression or Decision Trees offer clearer insights into feature relationships.</p>
+        
+        <p><strong>For production systems:</strong>
+        Consider the trade-off between performance (accuracy) and computational requirements (training time, memory usage).</p>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        # References
+        st.subheader("References & Resources")
+        st.markdown("""
+        - [Scikit-learn Documentation](https://scikit-learn.org/stable/supervised_learning.html)
+        - [XGBoost Documentation](https://xgboost.readthedocs.io/)
+        - [Towards Data Science: ML Algorithm Comparison](https://towardsdatascience.com/)
+        - [Machine Learning Mastery: Model Evaluation](https://machinelearningmastery.com/)
+        """)
     
     # Download model option
-    st.subheader("Download Trained Model")
-    
-    model_to_download = st.selectbox(
+    st.sidebar.markdown("### Export Models")
+    model_to_download = st.sidebar.selectbox(
         "Select model to download:", 
         list(st.session_state.models.keys()) + [f"Tuned {k}" for k in st.session_state.tuned_models.keys()]
     )
     
-    if st.button("Download Model"):
+    if st.sidebar.button("Download Model", type="primary"):
         try:
             # Determine which model to save
             if model_to_download.startswith("Tuned "):
