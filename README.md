@@ -108,8 +108,8 @@ streamlit run app.py
 
 Then, open the link it gives you (usually `http://localhost:8501`) in your **web browser**.
 
-> 🔗 You can also visit your deployed version of the app here:  
-[Open Web App](https://opulent-space-waffle-69gj546x5rp43xxwv-5000.app.github.dev/)
+> 🔗 You can also visit our deployed version of the app here:  
+https://modelcomparission-5phquygqcqpguyhajq6gvg.streamlit.app/
 
 ---
 
