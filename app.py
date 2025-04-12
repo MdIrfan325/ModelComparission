@@ -39,7 +39,7 @@ st.markdown("""
 
 def main():
     # Sidebar
-    st.sidebar.image(https://sdmntpraustraliaeast.oaiusercontent.com/files/00000000-967c-61fa-a548-9fe4a5f0fc57/raw?se=2025-04-11T15%3A00%3A05Z&sp=r&sv=2024-08-04&sr=b&scid=9e46eadc-8d72-57e2-8e37-7773fcc5f615&skoid=d958ec58-d47c-4d2f-a9f2-7f3e03fdcf72&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-04-11T05%3A53%3A15Z&ske=2025-04-12T05%3A53%3A15Z&sks=b&skv=2024-08-04&sig=QIqE27o6bLookAp4MsYrjCugj/sbCbjCWnZiHFjkZmE%3D", width=200)
+    st.sidebar.image("https://github.com/MdIrfan325/ModelComparission/blob/main/attached_assets/35ad238a-20b8-43e9-888b-9b51e2a6b6d1.png?raw=true", width=200)
     st.sidebar.title("Navigation")
     page = st.sidebar.radio("Go to", 
                             ["Home", "Data Preparation", "Model Training", 
