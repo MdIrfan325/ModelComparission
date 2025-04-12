@@ -698,8 +698,14 @@ def render_hyperparameter_tuning_page():
                         ]
                     }
                     
+                    # Define a custom function to highlight positive values
+                    def highlight_positive(val):
+                     color = 'green' if val > 0 else 'red'
+                     return f'color: {color}'
+
+                    # Apply the custom styling function
                     comparison_df = pd.DataFrame(comparison_data)
-                    st.dataframe(comparison_df.style.highlight_positive(subset=['Improvement']))
+                    st.dataframe(comparison_df.style.applymap(highlight_positive, subset=['Improvement']))
                     
                     # Visualize hyperparameter impact
                     st.subheader("Hyperparameter Tuning Results")
