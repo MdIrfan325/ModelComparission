@@ -20,17 +20,17 @@ def get_param_grid(model_name):
     if model_name == 'Logistic Regression':
         param_grid = {
             'C': np.logspace(-4, 4, 20),
-            'penalty': ['l1', 'l2', 'elasticnet', 'none'],
+            'penalty': ['l1', 'l2', 'elasticnet', None],
             'solver': ['newton-cg', 'lbfgs', 'liblinear', 'sag', 'saga'],
             'max_iter': [100, 500, 1000, 2000]
         }
         # Handle solver/penalty combinations that are not allowed
         param_grid['solver_penalty'] = [
-            ('newton-cg', 'l2'), ('newton-cg', 'none'),
-            ('lbfgs', 'l2'), ('lbfgs', 'none'),
+            ('newton-cg', 'l2'), ('newton-cg', None),
+            ('lbfgs', 'l2'), ('lbfgs', None),
             ('liblinear', 'l1'), ('liblinear', 'l2'),
-            ('sag', 'l2'), ('sag', 'none'),
-            ('saga', 'l1'), ('saga', 'l2'), ('saga', 'elasticnet'), ('saga', 'none')
+            ('sag', 'l2'), ('sag', None),
+            ('saga', 'l1'), ('saga', 'l2'), ('saga', 'elasticnet'), ('saga', None)
         ]
     
     elif model_name == 'Decision Tree':
