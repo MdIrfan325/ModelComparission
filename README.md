@@ -73,7 +73,7 @@ This guide will help you run the app on your own computer — even if you've nev
 2. Open a terminal (Command Prompt or PowerShell on Windows, Terminal on macOS/Linux)
 3. Run the following:
 ```bash
-git clone https://github.com/your-username/ModelComparer.git
+git clone https://github.com/MdIrfan325/ModelComparission.git
 cd ModelComparer
 ```
 
