@@ -135,6 +135,9 @@ Then, open the link it gives you (usually `http://localhost:8501`) in your **web
 
 7. **Export Models**  
    Download any trained or tuned model in `.joblib` format.
+   when you click on download in the sidebar a download button is generated in the bottom of the comparision dashboard when clicked your model is downloaded.
+   ![Screenshot 2025-04-12 173926](https://github.com/user-attachments/assets/2dfd7f16-2605-4461-b947-8d9b3491efd2)
+
 
 ---
 
